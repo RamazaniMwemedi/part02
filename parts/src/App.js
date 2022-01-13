@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import Notes from './Components/Notes'
 import './App.css';
 
-function App() {
+function App({ notes }) {
+
+  const [note, setnote] = useState(notes)
+   const addNote = (event) => {
+    event.preventDefault()
+    console.log('button clicked', event.target)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Notes</h1>
+      <ul>
+        {notes.map(note => 
+          <Notes key={note.id} note={note} />
+        )}
+      </ul>
+      <form onSubmit={addNote}>
+        <input />
+        <button type="submit">save</button>
+      </form>   
     </div>
+
   );
 }
 
