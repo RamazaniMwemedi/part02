@@ -4,6 +4,7 @@ import Notes from './Components/Notes'
 
 const App = () => {
   const [persons, setPersons] = useState([
+    {name:'Ramazani'}
     
   ]) 
   const [newName, setNewName] = useState('')
@@ -21,7 +22,15 @@ const App = () => {
       id: persons.length +1,
     }
     
+    // setPersons(persons.concat(addName))
+
+    if (newName === persons[0].name ) {
+      alert(`${newName} is alredary exintesd`);
+     }
     setPersons(persons.concat(addName))
+    alert(`${newName} added in the database`);
+     
+
     setNewName('')
 
   }
