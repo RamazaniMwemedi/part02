@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Notes = ({ names }) => {
+const Notes = (props) => {
   return (
-    <li>{names}</li>
+    <li>{props.names} {props.number} </li>
   )
 }
 

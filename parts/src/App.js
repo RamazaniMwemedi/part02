@@ -8,6 +8,7 @@ const App = () => {
     
   ]) 
   const [newName, setNewName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState(0)
 
   // Form handler 
   const addHandler=(event)=>{
@@ -17,6 +18,7 @@ const App = () => {
     // Adding new person
     const addName={
       name:newName,
+      number: phoneNumber,
       date: new Date().toISOString(),
       important: Math.random()>0.5,
       id: persons.length +1,
@@ -40,19 +42,25 @@ const App = () => {
     setNewName( event.target.value )
   }
 
+  const onChangeNumberH= (event)=>{
+    // console.log(event.target.value);
+    setPhoneNumber(event.target.value)
+  }
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addHandler} >
         <div>
           name: <input value={newName} onChange={onChangeHandler} />
+          <br />
+          number: <input type="text" value={phoneNumber} onChange={onChangeNumberH} />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person=> <Notes key={person.id} names={person.name} /> )}
+      {persons.map(person=> <Notes key={person.id} names={person.name} number={person.number} /> )}
     </div>
   )
 }
