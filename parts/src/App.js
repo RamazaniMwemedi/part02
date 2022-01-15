@@ -1,46 +1,52 @@
-import { useState } from 'react';
+import React, { useState } from 'react'
+
 import Notes from './Components/Notes'
-import './App.css';
 
-function App({ notes }) {
+const App = () => {
+  const [persons, setPersons] = useState([
+    
+  ]) 
+  const [newName, setNewName] = useState('')
 
-  const [note, setNote] = useState(notes)
-  const [newNote, setNewNote] = useState(' ')
+  // Form handler 
+  const addHandler=(event)=>{
+    event.preventDefault()
+    console.log(event.target);
 
-  const addNote = (event) => {
-  event.preventDefault()
-  const noteObject = {
-    content: newNote,
-    date: new Date().toISOString(),
-    important: Math.random() < 0.5,
-    id: notes.length + 1,
+    // Adding new person
+    const addName={
+      name:newName,
+      date: new Date().toISOString(),
+      important: Math.random()>0.5,
+      id: persons.length +1,
+    }
+    
+    setPersons(persons.concat(addName))
+    setNewName('')
+
   }
-
-  setNote(notes.concat(noteObject))
-  setNewNote('')
-}
-
-    const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
+  // Input value handler 
+  const onChangeHandler=(event)=>{
+    console.log(event.target.value);
+    setNewName( event.target.value )
   }
-
 
   return (
     <div>
-      <h1>Notes</h1>
-      <ul>
-        {notes.map(note => 
-          <Notes key={note.id} note={note}  />
-        )}
-      </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit"  >save</button>
-      </form>   
+      <h2>Phonebook</h2>
+      <form onSubmit={addHandler} >
+        <div>
+          name: <input value={newName} onChange={onChangeHandler} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      {persons.map(person=> <Notes key={person.id} names={person.name} /> )}
     </div>
-
-  );
+  )
 }
 
-export default App;
+export default App
+
