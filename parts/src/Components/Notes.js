@@ -2,7 +2,7 @@ import React from 'react'
 
 const Notes = (props) => {
   return (
-    <li>{props.names} {props.number} </li>
+    <li>{props.person} <b>{props.number}</b> </li>
   )
 }
 
