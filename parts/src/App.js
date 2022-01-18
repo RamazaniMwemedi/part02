@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 
-import Notes from './Components/Notes'
+// Components
+import Form from './Components/Form'
+import Search from './Components/Search'
+import Number from './Components/Number'
 
 const App = () => {
   // useStates
@@ -58,30 +61,19 @@ const App = () => {
   }
 
   // const peopleToShow= persons.filter( person=> person.name === search)
-  const peopleToShow= search === " "? persons : persons.filter(person => person.name === search );
+  const peopleToShow= search == ""? persons : persons.filter(person => person.name == search );
   return (
     <div>
       <h2>Phonebook</h2>
       <div>
-        filter shown with <input type="text" value={search} onChange={searchOnChangeH} />
+        {/* Search */}
+        <Search search={search} searchOnChangeH={searchOnChangeH} />
       </div>
       <h2>add a new user</h2>
-      <form onSubmit={addHandler} >
-        <div>
-          name: <input value={newName} onChange={onChangeHandler} />
-          <br />
-          number: <input type="text" value={phoneNumber} onChange={onChangeNumberH} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {peopleToShow.map( people => 
-        <Notes key={ people.id } person={people.name} number={people.number} /> 
-    )
-      
-      }
+      {/* Form */}
+      <Form addHandler={addHandler} newName={newName} onChangeHandler={onChangeHandler} phoneNumber={phoneNumber} onChangeNumberH={onChangeNumberH} />
+      {/* Number */}
+      <Number peopleToShow={peopleToShow} />
     </div>
   )
 }
