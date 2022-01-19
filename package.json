@@ -1,0 +1,21 @@
+{
+  "name": "part02",
+  "version": "1.0.0",
+  "description": "Some changes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server -p3001 --watch db.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamazaniMwemedi/part02.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RamazaniMwemedi/part02/issues"
+  },
+  "homepage": "https://github.com/RamazaniMwemedi/part02#readme"
+}
