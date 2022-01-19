@@ -2,9 +2,9 @@ import React from 'react'
 
 function Search(props) {
     return (
-        <div>
-             filter shown with <input type="text" value={props.search} onChange={props.searchOnChangeH} />
-        </div>
+     <form action="POST" onSubmit={props.onSubmit}>
+        Find country : <input placeholder=' Search for a country' value={props.search} onChange={props.onSearch} type="text" />
+      </form>
     )
 }
 
