@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios'
+import noteService from './services/notes'
 function App () {
 
   const [search, setSearch] = useState('');
@@ -32,8 +32,7 @@ function App () {
 
   // Fetching Datas
   useEffect(() => {
-    axios
-        .get("http://localhost:4000/persons")
+        noteService.getAll()
         .then((res)=>{
           console.log(res.data);
         })
