@@ -7,14 +7,14 @@ function App () {
   const [number, setNumber] = useState(Number()); 
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
+  const [datas, setDatas] = useState([]);
   // Form Handlers
   const addNew = (e) => {
     e.preventDefault()
     setName('')
     setNumber(Number())
   }
-
+  
   // onChanges
   const onChSearch = (e) => {
     setSearch(e.target.value)
@@ -34,16 +34,32 @@ function App () {
   useEffect(() => {
         noteService.getAll()
         .then((res)=>{
-          console.log(res.data);
+          setDatas(res.data)
         })
         .catch((error)=>{
           console.log(error);
         })
-        setTimeout(() => {
-          setIsLoading(false)
-        }, 5000);
+        
+        setIsLoading(false)
         console.log(`Loading is ${isLoading}`);
   }, []);
+  
+  // Delete handler
+  const deleteHandler = (id) => {
+    const person = datas.find(n => n.id === id)
+    const Id= person.id
+    console.log(Id);
+
+    noteService
+      .deletePerson(Id, person)
+      .then(res=>{
+        // console.log(res);
+        setDatas(datas.map(data=>data.id !== id ? data : res.data))
+      })
+      .catch(error=>console.error(error))
+  };
+  
+
   
 if (isLoading === true) {
   return(
@@ -55,7 +71,7 @@ if (isLoading === true) {
       <h1>Phonebook</h1>
       <Search search={search} handler={onChSearch} />
       <AddNew name={name} number={number} password={password} htmlForm={addNew} nameHandler={onChName} numberHandler={onChNumber} onChangePassword={onChangePassword} />
-      <Numbers  />
+      <Numbers datas={datas} deleteHandler={deleteHandler}/>
     </>
   )
 }
@@ -90,6 +106,34 @@ const Numbers = (props) => {
   return(
     <>
       <h2>Numbers</h2>
+      {props.datas.map(data=>{
+        return(
+          <Note key={data.id} id={data.id} name={data.name} number={data.number} deleteHandler
+          ={props.deleteHandler} />
+        )
+      })}
+
     </>
   )
 }
+
+const Note = (props) => {
+  return(
+    <ul style={{listStyle:"none"}}>
+      <li>{props.name}</li>
+      <li>{props.number}</li>
+      <button type="reset" className="btn btn-primary" onClick={()=>
+      {
+        if(window.confirm(`Do you want to delete ${props.name} permanently?`)){
+          props.deleteHandler(props.id)
+
+        }}
+      
+    }
+       >delete</button>
+    </ul>
+  );
+ 
+};
+
+// ()=> 
