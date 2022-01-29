@@ -6,7 +6,7 @@ function App () {
   const [name, setName] = useState('');
   const [number, setNumber] = useState(Number()); 
   const [password, setPassword] = useState('');
-
+  const [isLoading, setIsLoading] = useState(true);
 
   // Form Handlers
   const addNew = (e) => {
@@ -29,6 +29,28 @@ function App () {
   const onChangePassword = (e) => {
     setPassword(e.target.value)
   }
+
+  // Fetching Datas
+  useEffect(() => {
+    axios
+        .get("http://localhost:4000/persons")
+        .then((res)=>{
+          console.log(res.data);
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 5000);
+        console.log(`Loading is ${isLoading}`);
+  }, []);
+  
+if (isLoading === true) {
+  return(
+    <h1>Loading</h1>
+  )
+}else{
   return(
     <>
       <h1>Phonebook</h1>
@@ -37,6 +59,8 @@ function App () {
       <Numbers  />
     </>
   )
+}
+  
 }
 export default App;
 
