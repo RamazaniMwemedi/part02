@@ -1,79 +1,24 @@
 {
-  "persons": [
-    {
-      "name": "Arto Hellas",
+  "persons":[
+    { 
+      "name": "Arto Hellas", 
       "number": "040-123456",
       "id": 1
     },
-    {
-      "name": "Ada Lovelace",
+    { 
+      "name": "Ada Lovelace", 
       "number": "39-44-5323523",
       "id": 2
     },
-    {
-      "name": "Dan Abramov",
+    { 
+      "name": "Dan Abramov", 
       "number": "12-43-234345",
       "id": 3
     },
-    {
-      "name": "Mary Poppendieck",
+    { 
+      "name": "Mary Poppendieck", 
       "number": "39-23-6423122",
       "id": 4
-    }
-  ],
-  "notes": [
-    {
-      "content": "Ramazani",
-      "date": "2022-01-19T14:50:02.685Z",
-      "important": false,
-      "id": 1
-    },
-    {
-      "content": "Claudine",
-      "date": "2022-01-19T14:50:42.255Z",
-      "important": true,
-      "id": 2
-    },
-    {
-      "content": "Claudine",
-      "date": "2022-01-19T14:50:44.033Z",
-      "important": true,
-      "id": 3
-    },
-    {
-      "content": "Esther",
-      "date": "2022-01-19T14:51:14.647Z",
-      "important": false,
-      "id": 4
-    }
-  ],
-  "users": [
-    {
-      "content": "some",
-      "name": "Rama",
-      "age": "18",
-      "lang": "lkj",
-      "date": "2022-01-21T11:08:51.088Z",
-      "important": true,
-      "id": 1
-    },
-    {
-      "content": "nh",
-      "name": "mjh",
-      "age": "jh",
-      "lang": "iou",
-      "date": "2022-01-21T11:11:59.459Z",
-      "important": false,
-      "id": 2
-    },
-    {
-      "content": "vgh",
-      "name": "ku",
-      "age": "iu",
-      "lang": "j",
-      "date": "2022-01-21T11:14:40.867Z",
-      "important": true,
-      "id": 3
     }
   ]
 }

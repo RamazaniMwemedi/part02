@@ -1,102 +1,72 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
-function App() {
-  const [newNote, setNewNote]= useState('')
-  const [name, setName]= useState('')
-  const [age, setAge]=useState('')
-  const [lang, setLang]= useState('')
-  const [details, setDetails] = useState([])
+function App () {
 
-  const formHandler=(e)=>{
+  const [search, setSearch] = useState('');
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState(Number()); 
+  const [password, setPassword] = useState('');
+
+
+  // Form Handlers
+  const addNew = (e) => {
     e.preventDefault()
-    const noteObject = {
-    content: newNote,
-    name: name,
-    age: age,
-    lang:lang,
-    date: new Date(),
-    important: Math.random() < 0.5,
-  }
-
-  axios
-    .post('http://localhost:4000/users', noteObject)
-    .then(response => {
-      console.log(response)
-      setDetails(response.data)
-    }).catch((error)=>{
-      console.log(error);
-    })
-    setNewNote("")
     setName('')
-    setAge('')
-    setLang('')
+    setNumber(Number())
   }
 
-  const onChangeH=(e)=>{
-    setNewNote(e.target.value)
+  // onChanges
+  const onChSearch = (e) => {
+    setSearch(e.target.value)
   }
-  const onChangeHN=(e)=>{
+  
+  const onChName = (e) => {
     setName(e.target.value)
   }
-  const onChangeHA=(e)=>{
-    setAge(e.target.value)
+  const onChNumber = (e) => {
+    setNumber(e.target.value)
   }
-  const onChangeHL=(e)=>{
-    setLang(e.target.value)
+  const onChangePassword = (e) => {
+    setPassword(e.target.value)
   }
-
-  return <>
-    <h1>App </h1>
-    <Form newNote={newNote} name={name} age={age} lang={lang} formHandler={formHandler} onChangeH={onChangeH} onChangeHN={onChangeHN} onChangeHA={onChangeHA} onChangeHL={onChangeHL} />
-    <br />
-    <Details details={details} />
-  </>;
+  return(
+    <>
+      <h1>Phonebook</h1>
+      <Search search={search} handler={onChSearch} />
+      <AddNew name={name} number={number} password={password} htmlForm={addNew} nameHandler={onChName} numberHandler={onChNumber} onChangePassword={onChangePassword} />
+      <Numbers  />
+    </>
+  )
 }
-
 export default App;
 
-const Form = (props) => {
+const Search = (props) => {
   return(
-    <form action="POST" onSubmit={props.formHandler} >
-      <label>
-        note: <input type="text" value={props.newNote} onChange={props.onChangeH} />
-      </label>
-      <br />
-      <label>
-        name: <input type="text" value={props.name} onChange={props.onChangeHN} />
-      </label>
-      <br />
-      <label>
-        age: <input type="text" value={props.age} onChange={props.onChangeHA} />
-      </label>
-      <br />
-      <label>
-        language: <input type="text" value={props.lang} onChange={props.onChangeHL} />
-      </label>
-      <br />
-      <button type="submit"> Add New Note</button>
-    </form>
+    <label htmlFor="search">Filter: <input type="text" name="search" id="search" value={props.search} onChange={props.handler} /></label>
   )
 }
 
-const Details = (props) => {
-  const[persons, setPersons]= useState('')
-  useEffect(() => {
-    axios
-        .get('http://localhost:4000/notes')
-        .then((res)=>{
-          setPersons(res.data)
-        })
-  },[]);
-  console.log(`Datas are ${persons.length}`);
-
+const AddNew = (props) => {
   return(
     <>
-      <h2>Details</h2>
-      {persons.map((person)=>{
-        // const{content, id}= person;
-        return
-      })}
+      <h2>Add a new</h2>
+      <form onSubmit={props.htmlFor} >
+        <label htmlFor="name">Name: <input type="text" name="name" id="name" value={props.name} onChange={props.nameHandler} /></label>
+        <br />
+        <label htmlFor="number">Number: <input type="number" name="number" id="number" value={props.number} onChange={props.numberHandler} /></label>
+        <br />
+        <label htmlFor="password">Password: <input type="password"  value={props.password} onChange={props.onChangePassword} /></label>
+        <br />
+        <button type="submit">add</button>
+      </form>
+    </>
+  )
+}
+
+const Numbers = (props) => {
+  return(
+    <>
+      <h2>Numbers</h2>
     </>
   )
 }
