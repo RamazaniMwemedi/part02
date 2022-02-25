@@ -1,20 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import noteService from './services/notes'
+
 function App () {
 
   const [search, setSearch] = useState('');
   const [name, setName] = useState('');
   const [number, setNumber] = useState(Number()); 
-  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [datas, setDatas] = useState([]);
+
+  const snotes= datas.filter(data=> data.name.startsWith(search) || data.name === search ) 
+  const toShow = snotes.map(note=>{note})
+
   // Form Handlers
-  const addNew = (e) => {
-    e.preventDefault()
-    setName('')
-    setNumber(Number())
+  const addNote = event => {
+  event.preventDefault()
+  const noteObject = {
+    content: name,
+    date: new Date(),
+    important: Math.random() < 0.5,
   }
-  
+//  noteService.create(noteObject).then(console.log(noteObject))
+ datas.push(noteObject)
+ console.log(datas);
+}
   // onChanges
   const onChSearch = (e) => {
     setSearch(e.target.value)
@@ -25,9 +34,6 @@ function App () {
   }
   const onChNumber = (e) => {
     setNumber(e.target.value)
-  }
-  const onChangePassword = (e) => {
-    setPassword(e.target.value)
   }
 
   // Fetching Datas
@@ -70,7 +76,8 @@ if (isLoading === true) {
     <>
       <h1>Phonebook</h1>
       <Search search={search} handler={onChSearch} />
-      <AddNew name={name} number={number} password={password} htmlForm={addNew} nameHandler={onChName} numberHandler={onChNumber} onChangePassword={onChangePassword} />
+      <SearchedNotes toShow={toShow} />
+      <AddNew name={name} number={number} formHandler={addNote} nameHandler={onChName} numberHandler={onChNumber}  />
       <Numbers datas={datas} deleteHandler={deleteHandler}/>
     </>
   )
@@ -85,16 +92,25 @@ const Search = (props) => {
   )
 }
 
+const SearchedNotes = ({toShow}) => {
+  
+  return(
+    <>
+      <h2>Searched notes</h2>
+      <p>{toShow}</p>
+    </>
+  )
+}
+
 const AddNew = (props) => {
   return(
     <>
-      <h2>Add a new</h2>
-      <form onSubmit={props.htmlFor} >
+      <h2>Add a new Person</h2>
+      <form onSubmit={props.formHandler} >
         <label htmlFor="name">Name: <input type="text" name="name" id="name" value={props.name} onChange={props.nameHandler} /></label>
         <br />
         <label htmlFor="number">Number: <input type="number" name="number" id="number" value={props.number} onChange={props.numberHandler} /></label>
         <br />
-        <label htmlFor="password">Password: <input type="password"  value={props.password} onChange={props.onChangePassword} /></label>
         <br />
         <button type="submit">add</button>
       </form>
@@ -102,16 +118,18 @@ const AddNew = (props) => {
   )
 }
 
-const Numbers = (props) => {
+const Numbers = ({datas, deleteHandler}) => {
   return(
     <>
       <h2>Numbers</h2>
-      {props.datas.map(data=>{
+      {
+        datas.length === 0 ? <h4><i>Sorry for now, there might be an issue with server</i></h4> : datas.map(data=>{
         return(
           <Note key={data.id} id={data.id} name={data.name} number={data.number} deleteHandler
-          ={props.deleteHandler} />
+          ={deleteHandler} />
         )
-      })}
+      })
+      }
 
     </>
   )
@@ -136,4 +154,14 @@ const Note = (props) => {
  
 };
 
-// ()=> 
+// const Notification = ({ message }) => {
+//   if (message === null) {
+//     return null
+//   }
+
+//   return (
+//     <div className='error'>
+//       {message}
+//     </div>
+//   )
+// }
