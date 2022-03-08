@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import person from './services/person';
 import personServices from './services/person'
 
 const App = () => {
@@ -54,7 +55,7 @@ const App = () => {
 
   // Delete handlers
   const deletePerson = (id) => {
-    console.log(id)
+    personServices.deletePerson(id)
   }
 
   // ONCHANGES
