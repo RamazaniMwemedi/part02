@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import noteService from './services/person'
+import personServices from './services/person'
 
 const App = () => {
   const [datas, setDatas] = useState([])
@@ -9,19 +9,53 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    noteService.getAll()
+    personServices.getAll()
     .then(result => {
       setDatas(result.data)
       setIsLoading(false)
     } )
   }, [])
 
+
   // HANDLERS
   // add Handler
   const addNote = (e) => {
     e.preventDefault()
+    const Person= {
+      name,
+      number,
+      important:true
+    }
+    // Fetching datas
+    const w= datas.map(data=>data)
+    const user = w.map(consumer=> {
+      const user = {
+        name: consumer.name,
+        id: consumer.id
+      }
+      return user
+    })
+   
+    // Finding name which is in the DB
+    const q= user.find(tn=> tn.name === name)
+    // console.log(q);
+
+    // Cheking if the name is saved in the DB so that either to send POST or PUT method to the server
+    if (q) {
+      personServices.update(q.id,Person)
+        .then(result=> console.log(result))
+    } else {
+      personServices.create(Person)
+        .then(result => {
+          console.log(result);
+        })
+    }
   }
-  // Saving the datas in an object
+
+  // Delete handlers
+  const deletePerson = (id) => {
+    console.log(id)
+  }
 
   // ONCHANGES
   // nameOnChange
@@ -43,7 +77,7 @@ const App = () => {
       <h1>Phonebook</h1>
       <Search search={search} searchOnChange={searchOnChange} data={searchName} />
       <AddNew addNote={addNote} name={name} number={number} nameOnChange={nameOnChange} numberOnChange={numberOnChange} />
-      <Notes datas={datas} isLoading={isLoading} />
+      <Notes datas={datas} isLoading={isLoading} deletePerson={deletePerson} />
     </>
   )
 }
@@ -52,13 +86,12 @@ export default App
 
 const Search = ({search, data, searchOnChange}) => {
    const toShow =data.filter(name=> name === search )
-   console.log(toShow);
   return(
     <>
       <label htmlFor="filter">Filter shown with: <input type="text" name="filter" value={search} onChange={searchOnChange} /></label>
 
       <div className="result">
-        <p>Data</p>
+        <p className='search' >{search}</p>
         <h1>{toShow}</h1>
       </div>
     </>
@@ -80,13 +113,13 @@ const AddNew = (props) => {
   )
  }
 
-const Notes = ({datas, isLoading}) => { 
+const Notes = ({datas, isLoading, deletePerson}) => { 
   const x = datas.map(data=> data)
   
   return(
     <>
       <h2>Notes</h2>
-      {isLoading ? <h3>Loading...</h3> : x.map(person=> <Note key={person.id} name={person.name} number={person.number} /> ) }
+      {isLoading ? <h3>Loading...</h3> : x.map(person=> <Note key={person.id} id={person.id} deletePerson={deletePerson} name={person.name} number={person.number} /> ) }
       
     </>
   )
@@ -99,7 +132,7 @@ const Notes = ({datas, isLoading}) => {
         <div className='note' >
           <p>{props.name}</p>
           <p>{props.number}</p>
-          <button >delete</button>
+          <button onClick={()=>props.deletePerson(props.id)} >delete</button>
         </div>
      </>
    )
